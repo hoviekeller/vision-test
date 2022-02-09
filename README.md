@@ -7,9 +7,9 @@ Note: this test is NOT a clinical test for your eyes and has NO diagnostic value
 You can install this app as a PWA on your mobile device, moreover, it is available as a browser extension as-well-as a web application:
 
 Chrome: https://chrome.google.com/webstore/detail/vision-test/fddlflldgdefcldoecajoekmffoifnan  
-Opera: https://addons.opera.com/en/extensions/details/vision-test/  
-Firefox: https://addons.mozilla.org/en-US/firefox/addon/vision-test/  
 Edge: https://microsoftedge.microsoft.com/addons/detail/odfofaebjpddhldcomdedoibbmcglhpl  
+Firefox: https://addons.mozilla.org/en-US/firefox/addon/vision-test/  
+Opera: https://addons.opera.com/en/extensions/details/vision-test/  
 
 Webapp & PWA: https://webbrowsertools.com/vision-test/  
 
