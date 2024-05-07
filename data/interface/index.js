@@ -24,7 +24,9 @@ var background = {
           "method": id,
           "data": data,
           "path": "interface-to-background"
-        }); 
+        }, function () {
+          return chrome.runtime.lastError;
+        });
       }
     }
   },
@@ -42,7 +44,7 @@ var background = {
   },
   "listener": function (e) {
     if (e) {
-      for (var id in background.message) {
+      for (let id in background.message) {
         if (background.message[id]) {
           if ((typeof background.message[id]) === "function") {
             if (e.path === "background-to-interface") {
@@ -66,7 +68,7 @@ var config  = {
   "button": {
     "is": {
       "enabled": function () {
-        var play = document.querySelector(".play");
+        const play = document.querySelector(".play");
         return !play.getAttribute("disabled");
       }
     }
@@ -77,7 +79,7 @@ var config  = {
       if (config.port.name === "win") {
         if (config.resize.timeout) window.clearTimeout(config.resize.timeout);
         config.resize.timeout = window.setTimeout(async function () {
-          var current = await chrome.windows.getCurrent();
+          const current = await chrome.windows.getCurrent();
           /*  */
           config.storage.write("interface.size", {
             "top": current.top,
@@ -90,21 +92,21 @@ var config  = {
     }
   },
   "load": function () {
-    var reload = document.getElementById("reload");
-    var support = document.getElementById("support");
-    var donation = document.getElementById("donation");
+    const reload = document.getElementById("reload");
+    const support = document.getElementById("support");
+    const donation = document.getElementById("donation");
     /*  */
     reload.addEventListener("click", function () {
       document.location.reload();
     }, false);
     /*  */
     support.addEventListener("click", function () {
-      var url = config.addon.homepage();
+      const url = config.addon.homepage();
       chrome.tabs.create({"url": url, "active": true});
     }, false);
     /*  */
     donation.addEventListener("click", function () {
-      var url = config.addon.homepage() + "?reason=support";
+      const url = config.addon.homepage() + "?reason=support";
       chrome.tabs.create({"url": url, "active": true});
     }, false);
     /*  */
@@ -125,7 +127,7 @@ var config  = {
     "write": function (id, data) {
       if (id) {
         if (data !== '' && data !== null && data !== undefined) {
-          var tmp = {};
+          let tmp = {};
           tmp[id] = data;
           config.storage.local[id] = data;
           chrome.storage.local.set(tmp, function () {});
@@ -140,7 +142,7 @@ var config  = {
     "name": '',
     "connect": function () {
       config.port.name = "webapp";
-      var context = document.documentElement.getAttribute("context");
+      const context = document.documentElement.getAttribute("context");
       /*  */
       if (chrome.runtime) {
         if (chrome.runtime.connect) {
@@ -173,7 +175,7 @@ var config  = {
       get value () {return config.storage.read("timer-value") !== undefined ? Number(config.storage.read("timer-value")) : 7}
     },
     "next": function () {
-      var timer = document.querySelector(".timer");
+      const timer = document.querySelector(".timer");
       if (config.button.is.enabled()) {
         if (config.app.vision.test.metrics.index < config.app.vision.test.metrics.level.length) {
           timer.textContent = config.app.timer.value;
@@ -184,7 +186,7 @@ var config  = {
       }
     },
     "previous": function () {
-      var timer = document.querySelector(".timer");
+      const timer = document.querySelector(".timer");
       if (config.button.is.enabled()) {
         if (config.app.vision.test.metrics.index > 0) {
           timer.textContent = config.app.timer.value;
@@ -195,10 +197,10 @@ var config  = {
       }
     },
     "pause": function () {
-      var play = document.querySelector(".play");
-      var next = document.querySelector(".next");
-      var timer = document.querySelector(".timer");
-      var previous = document.querySelector(".previous");
+      const play = document.querySelector(".play");
+      const next = document.querySelector(".next");
+      const timer = document.querySelector(".timer");
+      const previous = document.querySelector(".previous");
       /*  */
       timer.textContent = '!';
       play.removeAttribute("disabled");
@@ -208,14 +210,14 @@ var config  = {
       window.clearInterval(config.app.timer.interval);
     },
     "action": function (i) {
-      var test = document.querySelector(".test .image");
-      var level = document.querySelector(".footer .level");
-      var image = document.querySelector(".result .image");
-      var answer = document.querySelector(".footer .answer");
+      const test = document.querySelector(".test .image");
+      const level = document.querySelector(".footer .level");
+      const image = document.querySelector(".result .image");
+      const answer = document.querySelector(".footer .answer");
       /*  */
-      var index = Math.floor(Math.random() * config.app.vision.test.metrics.angle.length);
-      var transform = "rotate(" + config.app.vision.test.metrics.angle[index] + "deg)";
-      var current = config.app.vision.test.metrics.level[i];
+      const index = Math.floor(Math.random() * config.app.vision.test.metrics.angle.length);
+      const transform = "rotate(" + config.app.vision.test.metrics.angle[index] + "deg)";
+      const current = config.app.vision.test.metrics.level[i];
       /*  */
       test.style.transform = transform;
       image.style.transform = transform;
@@ -224,13 +226,13 @@ var config  = {
       test.style.backgroundSize = Number(config.app.vision.test.metrics.mm[i]) + "mm";
     },
     "start": function () {
-      var play = document.querySelector(".play");
-      var stop = document.querySelector(".stop");
-      var next = document.querySelector(".next");
-      var timer = document.querySelector(".timer");
-      var pause = document.querySelector(".pause");
-      var previous = document.querySelector(".previous");
-      var timervalue = document.querySelector(".timer-value");
+      const play = document.querySelector(".play");
+      const stop = document.querySelector(".stop");
+      const next = document.querySelector(".next");
+      const timer = document.querySelector(".timer");
+      const pause = document.querySelector(".pause");
+      const previous = document.querySelector(".previous");
+      const timervalue = document.querySelector(".timer-value");
       /*  */
       stop.addEventListener("click", config.app.stop);
       next.addEventListener("click", config.app.next);
@@ -252,19 +254,19 @@ var config  = {
     },
     "play": function (clear) {
       if (config.button.is.enabled()) {
-        var play = document.querySelector(".play");
-        var next = document.querySelector(".next");
-        var timer = document.querySelector(".timer");
-        var previous = document.querySelector(".previous");
-        var image = document.querySelector(".result .image");
-        var answer = document.querySelector(".footer .answer");
+        const play = document.querySelector(".play");
+        const next = document.querySelector(".next");
+        const timer = document.querySelector(".timer");
+        const previous = document.querySelector(".previous");
+        const image = document.querySelector(".result .image");
+        const answer = document.querySelector(".footer .answer");
         /*  */
         timer.textContent = config.app.timer.value;
         window.clearInterval(config.app.timer.interval);
         if (clear) config.app.vision.test.metrics.index = 0;
         config.app.timer.interval = window.setInterval(function () {
-          var current = Number(timer.textContent);
-          var half = config.app.timer.value / 2 + 2;
+          const current = Number(timer.textContent);
+          const half = config.app.timer.value / 2 + 2;
           /*  */
           timer.textContent = current - 1;
           if (current < half) {
