@@ -95,6 +95,8 @@ var config  = {
     const reload = document.getElementById("reload");
     const support = document.getElementById("support");
     const donation = document.getElementById("donation");
+    const description = document.querySelector(".description");
+    const details = description.querySelector("details");
     /*  */
     reload.addEventListener("click", function () {
       document.location.reload();
@@ -108,6 +110,11 @@ var config  = {
     donation.addEventListener("click", function () {
       const url = config.addon.homepage() + "?reason=support";
       chrome.tabs.create({"url": url, "active": true});
+    }, false);
+    /*  */
+    details.addEventListener("toggle", function (e) {
+      const state = e.target.hasAttribute("open");
+      config.storage.write("state", state ? "open" : "close");
     }, false);
     /*  */
     config.storage.load(config.app.start);
@@ -233,6 +240,15 @@ var config  = {
       const pause = document.querySelector(".pause");
       const previous = document.querySelector(".previous");
       const timervalue = document.querySelector(".timer-value");
+      const description = document.querySelector(".description");
+      /*  */
+      const details = description.querySelector("details");
+      const state = config.storage.read("state") !== undefined ? config.storage.read("state") : "open";
+      if (state === "open") {
+        details.setAttribute("open", '');
+      } else {
+        details.removeAttribute("open");
+      }
       /*  */
       stop.addEventListener("click", config.app.stop);
       next.addEventListener("click", config.app.next);
